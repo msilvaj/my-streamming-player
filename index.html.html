@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal OGG Player</title>
+    <style>
+        /* This creates the black screen background */
+        body {
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        /* Styling the player container to stay visible */
+        .player-container {
+            background: #222;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        button {
+            background-color: #fff;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="player-container">
+        <audio id="myAudio" src="https://file1.rainfor.me/%72f%6d/%73t%61n%64a%72d.%6fg%67"></audio>
+        
+        <button id="playPauseBtn">Play</button>
+    </div>
+
+    <script>
+        const audio = document.getElementById('myAudio');
+        const btn = document.getElementById('playPauseBtn');
+
+        btn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                btn.textContent = 'Pause';
+            } else {
+                audio.pause();
+                btn.textContent = 'Play';
+            }
+        });
+    </script>
+
+</body>
+</html>
