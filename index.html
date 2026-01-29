@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimal OGG Player</title>
+    <title>Minimal OGG Player with Repeat</title>
     <style>
-        /* This creates the black screen background */
         body {
             background-color: #000;
             display: flex;
@@ -16,55 +15,97 @@
             font-family: sans-serif;
         }
 
-        /* Styling the player container to stay visible */
         .player-container {
             background: #222;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.05);
             text-align: center;
         }
 
-        button {
-            background-color: #fff;
-            color: #000;
-            border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: transform 0.1s;
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
         }
 
-        button:active {
-            transform: scale(0.95);
+        button {
+            background-color: #444;
+            color: #fff;
+            border: 1px solid #666;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        /* Play button stands out a bit more */
+        #playPauseBtn {
+            background-color: #fff;
+            color: #000;
+        }
+
+        /* Active state for Repeat button */
+        button.active {
+            background-color: #1DB954; /* Spotify-ish green */
+            color: white;
+            border-color: #1DB954;
+        }
+
+        button:hover {
+            opacity: 0.8;
         }
     </style>
 </head>
 <body>
 
     <div class="player-container">
-        <audio id="myAudio" src="rain.ogg"></audio>
+        <audio id="myAudio" src="your-file.ogg"></audio>
         
-        <button id="playPauseBtn">Play</button>
+        <div class="controls">
+            <button id="playPauseBtn">Play</button>
+            <button id="repeatBtn">Repeat: OFF</button>
+        </div>
     </div>
 
     <script>
         const audio = document.getElementById('myAudio');
-        const btn = document.getElementById('playPauseBtn');
+        const playBtn = document.getElementById('playPauseBtn');
+        const repeatBtn = document.getElementById('repeatBtn');
 
-        btn.addEventListener('click', () => {
+        // Play / Pause Logic
+        playBtn.addEventListener('click', () => {
             if (audio.paused) {
                 audio.play();
-                btn.textContent = 'Pause';
+                playBtn.textContent = 'Pause';
             } else {
                 audio.pause();
-                btn.textContent = 'Play';
+                playBtn.textContent = 'Play';
+            }
+        });
+
+        // Repeat (Loop) Logic
+        repeatBtn.addEventListener('click', () => {
+            // .loop is a built-in property of HTML audio
+            audio.loop = !audio.loop; 
+            
+            if (audio.loop) {
+                repeatBtn.textContent = 'Repeat: ON';
+                repeatBtn.classList.add('active');
+            } else {
+                repeatBtn.textContent = 'Repeat: OFF';
+                repeatBtn.classList.remove('active');
+            }
+        });
+
+        // Reset Play button text if audio ends naturally (and loop is OFF)
+        audio.addEventListener('ended', () => {
+            if (!audio.loop) {
+                playBtn.textContent = 'Play';
             }
         });
     </script>
 
 </body>
 </html>
-
